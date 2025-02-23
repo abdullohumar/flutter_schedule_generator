@@ -49,7 +49,7 @@ class GeminiService {
           } else if (response.statusCode == 503){
             throw ArgumentError("Service unavailable");
           } else if (response.statusCode == 200){
-            return data["contents"][0]["parts"][0]["text"];
+            return data["candidates"][0]["content"]["parts"][0]["text"];
           } else {
             throw ArgumentError("Unknown error");
           }
