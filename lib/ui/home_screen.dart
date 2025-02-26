@@ -26,24 +26,29 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blueAccent,
         elevation: 10,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Card(
-              elevation: 4,
-              child: Padding(
-                  padding: const EdgeInsets.all(16), child: _buildInputField()),
-            ),
-            const SizedBox(height: 20),
-            Expanded(
-              child: Card(elevation: 4, child: _buildTaskList()),
-            ),
-            const SizedBox(height: 20),
-            _buildGenerateButton(),
-            const SizedBox(height: 20),
-            _buildScheduleResult()
-          ],
+      body: SingleChildScrollView(
+        // ✅ Tambahkan ScrollView
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              Card(
+                elevation: 4,
+                child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: _buildInputField()),
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                height: 200, // ✅ Atur tinggi agar tidak menyebabkan overflow
+                child: Card(elevation: 4, child: _buildTaskList()),
+              ),
+              const SizedBox(height: 20),
+              _buildGenerateButton(),
+              const SizedBox(height: 20),
+              _buildScheduleResult()
+            ],
+          ),
         ),
       ),
     );
@@ -116,7 +121,10 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void _addTask() {
-    if(taskController.text.isNotEmpty && durationController.text.isNotEmpty && deadlineController.text.isNotEmpty && priority != null) {
+    if (taskController.text.isNotEmpty &&
+        durationController.text.isNotEmpty &&
+        deadlineController.text.isNotEmpty &&
+        priority != null) {
       setState(() {
         tasks.add(Task(
           name: taskController.text,
@@ -129,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  void _clearInputs(){
+  void _clearInputs() {
     taskController.clear();
     durationController.clear();
     deadlineController.clear();
@@ -204,22 +212,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildScheduleResult() {
     return scheduleResult.isNotEmpty
-        ? Expanded(
-          child: Card(
-              elevation: 4,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: SingleChildScrollView(
-                  child: Text(
-                    scheduleResult,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+        ? Card(
+          elevation: 4,
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: SingleChildScrollView(
+              child: Text(
+                scheduleResult,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+          ),
         )
         : Container();
   }
